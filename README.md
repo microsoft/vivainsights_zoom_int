@@ -1,14 +1,11 @@
-# Project
+# Viva Insights Zoom Data Integration
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+The Zoom Collaboration analysis provides analysts with an opportunity to derive meaningful additional collaboration metrics from Zoom meeting reports that complement existing metrics provided by Workplace Analytics. 
 
-As the maintainer of this project, please make a few updates:
+Analysts can use this to understand collaboration that occurs on Zoom with a primary focus on unscheduled collaboration. Analysts can download the output either as a standalone .csv file with collaboration metrics for unscheduled Zoom calls or as a Ways of working assessment input file (with Zoom collaboration metrics) and the modified Ways of working assessment Power BI template.
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
+This analysis will help leaders & analysts get a richer and more complete picture of the collaboration patterns of their organization.
+
 
 ## Contributing
 
