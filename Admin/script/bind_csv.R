@@ -111,13 +111,6 @@ bind_csv <- function(path,
       save_path,
       na = ""
       )
-	  
-	# data.table::fwrite(
-	#   readin_csv,
-	#   save_path,
-	#   na = "",
-	#   bom = TRUE
-	#   )
 
     message(paste("Combined file saved to", save_path))
 
