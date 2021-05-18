@@ -6,6 +6,10 @@ Analysts can use this to understand collaboration that occurs on Zoom with a pri
 
 This analysis will help leaders & analysts get a richer and more complete picture of the collaboration patterns of their organization.
 
+## Usage
+
+_To follow..._
+
 
 ## Contributing
 
