@@ -59,7 +59,7 @@ zoom_output %>%
   mutate(Date = format(Date, "%m/%d/%Y")) %>%
   as_tibble() %>%
   write_csv(
-    paste("../output/Zoom Transformed Person Query Export Diageo", # UPDATE AS APPROPRIATE
+    paste("../output/Zoom Transformed Person Query Export", # UPDATE AS APPROPRIATE
           tstamp(),
           ".csv"),
     na = ""
