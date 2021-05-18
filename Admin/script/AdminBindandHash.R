@@ -1,21 +1,29 @@
-# Define packages that will be necessary for execution
+# Define packages that will be necessary for execution ------------------
 packages <- c(
 	"wpa",
-	"tidyverse",
+	"dplyr",
+  "purrr",
+  "readr",
+  "stringr",
   "data.table"
   )
 
-# Now load or install & load all
-package.check <- lapply(
-  packages,
-  FUN = function(x) {
-    if (!require(x, character.only = TRUE)) {
+# Now load or install & load all -----------------------------------------
+for(x in packages){
+
+  if (!require(x, character.only = TRUE)) {
       install.packages(x, dependencies = TRUE, repos='http://cran.us.r-project.org')      
     }
-	suppressPackageStartupMessages(library(x, character.only = TRUE))
-  }
-)
 
+	suppressPackageStartupMessages(
+    suppressMessages(
+      library(x, character.only = TRUE)
+      )
+    )    
+  
+}
+
+# Load functions ---------------------------------------------------------
 source("../script/bind_csv.R")
 source("../script/hash_zoom.R")
 source("../script/import_zoom.R")
@@ -49,13 +57,15 @@ bind_csv(
 # Check whether duplicates exist
 input_files <- list.files("../input") # Refresh
 
+message("Reading in Hash file and Combined Zoom file...") # Update user
+
 matched_zoom <- input_files[grepl(pattern = "combinedzoomparticipant_", x = input_files)]
 
 if(length(matched_zoom) > 1){
   stop("More than one file with name containing 'combinedzoomparticipant_' found in directory.")
 }
 
-# Output is assigned to `zoom_hashed`
+# Output is assigned to `zoom_hashed` -------------------------------------
 zoom_hashed <-
   hash_zoom(
   zoom_path = paste0("../input/", matched_zoom), # UPDATE AS APPROPRIATE
@@ -65,9 +75,14 @@ zoom_hashed <-
 
 # Export Hashed Zoom File for Analyst -------------------------------------
 
+path_zoom_hashed <- "../output/Hashed Zoom File from Zoom Admin.csv" # UPDATE AS APPROPRIATE    
+
 zoom_hashed %>%
   data.table::fwrite(
-      "../output/Hashed Zoom File from Zoom Admin.csv" # UPDATE AS APPROPRIATE    
+      path_zoom_hashed
   )
+
+message(paste("Hashed Zoom file saved to", path_zoom_hashed))
+message("Please send the hashed file to Workplace Analytics Analyst.")
 
 # ZOOM ADMIN SENDS OUTPUT HASH FILE TO ANALYST
