@@ -1,4 +1,7 @@
-# Define packages that will be necessary for execution
+# Timestamp --------------------------------------------------------------
+start_t <- Sys.time()
+
+# Define packages that will be necessary for execution -------------------
 packages <- c(
 	"wpa",
 	"tidyverse",
@@ -6,43 +9,103 @@ packages <- c(
   "hms"
   )
 
-# Now load or install & load all
-package.check <- lapply(
-  packages,
-  FUN = function(x) {
-    if (!require(x, character.only = TRUE)) {
-      install.packages(x, dependencies = TRUE, repos='http://cran.us.r-project.org')
-      library(x, character.only = TRUE)
+# Now load or install & load all -----------------------------------------
+
+for(x in packages){
+
+  mtry <- try(find.package(package = x))
+
+  if (inherits(mtry, "try-error")) {
+      install.packages(
+        pkgs = x,
+        dependencies = TRUE,
+        repos = 'http://cran.us.r-project.org')      
     }
-  }
-)
+
+	suppressPackageStartupMessages(
+    suppressMessages(
+      library(x, character.only = TRUE)
+      )
+    )    
+  
+}
+
+# Load functions ---------------------------------------------------------
 
 source("internal/import_zoom.R")
 source("internal/split_hm.R")
 source("internal/zoom_to_afterhours.R")
 source("internal/zoom_to_pq.R")
 
+stamp_time <- function(start_t, unit = "mins"){
+  paste0(
+    "(",
+    round(difftime(Sys.time(), start_t, units = unit), 1), " ",
+    unit, ")"
+  )        
+}
 
 #### ANALYST --------------------------------------------------------------
-# Read Zoom file
-zoom_for_analyst <- import_zoom(
-	"../input/Hashed Zoom File from Zoom Admin.csv", # UPDATE AS APPROPRIATE
-)
+# Read Zoom file ----------------------------------------------------------
+path_zoom <- list.files("../input/") %>%
+  .[grepl(pattern = "Hashed Zoom File from Zoom Admin.csv",
+          x = .,
+          ignore.case = TRUE)]
 
-# Read Standard Meeting Query
-smq <- data.table::fread(  
-	"../input/Standard meeting query Zoom Pilot.csv", # UPDATE AS APPROPRIATE
-	encoding = "UTF-8"
-)
+if(length(path_zoom) == 0){
+
+  stop("Hashed zoom output not found.")
+
+} else {
+
+  full_path_zoom <- paste0("../input/", path_zoom)
+  message("Loading in ", path_zoom, "... ", stamp_time(start_t, unit = "secs"))
+  zoom_for_analyst <- import_zoom(full_path_zoom)
+  message("Successfully loaded ", path_zoom, "...", stamp_time(start_t, unit = "secs"))
+
+}
+
+# Read Standard Meeting Query ---------------------------------------------
+path_smq <- list.files("../input/") %>%
+  .[grepl(pattern = "Standard meeting query.csv",
+          x = .,
+          ignore.case = TRUE)]
+
+if(length(path_smq) == 0){
+
+  stop("Standard Meeting Query not found.")
+
+} else {
+
+  full_path_smq <- paste0("../input/", path_smq)
+  message("Loading in ", path_smq, "...", stamp_time(start_t, unit = "secs"))
+  smq <- data.table::fread(full_path_smq, encoding = "UTF-8")
+  message("Successfully loaded ", path_smq, "...", stamp_time(start_t, unit = "secs"))
+
+}
 
 
-# Read in WOWA Query
-wowa_df <- data.table::fread(
-    "../input/Ways of working assessment Zoom WpA pilot_withTimeZone.csv", # UPDATE AS APPROPRIATE
-  encoding = "UTF-8"
-)
 
-# Convert to Person Query
+# Read in WOWA Query ------------------------------------------------------
+path_wowa <- list.files("../input/") %>%
+  .[grepl(pattern = "Ways of working assessment query.csv",
+          x = .,
+          ignore.case = TRUE)]
+
+if(length(path_wowa) == 0){
+
+  stop("Ways of Working Assessment query not found.")
+
+} else {
+
+  full_path_wowa <- paste0("../input/", path_wowa)
+  message("Loading in ", path_wowa, "...", stamp_time(start_t, unit = "secs"))
+  wowa_df <- data.table::fread(full_path_wowa, encoding = "UTF-8")
+  message("Successfully loaded ", path_wowa, "...", stamp_time(start_t, unit = "secs"))
+
+}
+
+# Convert to Person Query -------------------------------------------------
 zoom_output <- zoom_for_analyst %>%
   zoom_to_pq(mq_key = unique(smq$Subject),
              wowa_file = wowa_df,
