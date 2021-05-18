@@ -1,6 +1,5 @@
 # Define packages that will be necessary for execution ------------------
 packages <- c(
-	"wpa",
 	"dplyr",
   "purrr",
   "readr",
@@ -9,10 +8,16 @@ packages <- c(
   )
 
 # Now load or install & load all -----------------------------------------
+
 for(x in packages){
 
-  if (!require(x, character.only = TRUE)) {
-      install.packages(x, dependencies = TRUE, repos='http://cran.us.r-project.org')      
+  mtry <- try(find.package(package = x))
+
+  if (inherits(mtry, "try-error")) {
+      install.packages(
+        pkgs = x,
+        dependencies = TRUE,
+        repos = 'http://cran.us.r-project.org')      
     }
 
 	suppressPackageStartupMessages(
