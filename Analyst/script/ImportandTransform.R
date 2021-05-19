@@ -6,7 +6,8 @@ packages <- c(
 	"wpa",
 	"tidyverse",
   "data.table",
-  "hms"
+  "hms",
+  "lutz"
   )
 
 # Now load or install & load all -----------------------------------------
@@ -19,15 +20,15 @@ for(x in packages){
       install.packages(
         pkgs = x,
         dependencies = TRUE,
-        repos = 'http://cran.us.r-project.org')      
+        repos = 'http://cran.us.r-project.org')
     }
 
 	suppressPackageStartupMessages(
     suppressMessages(
       library(x, character.only = TRUE)
       )
-    )    
-  
+    )
+
 }
 
 # Load functions ---------------------------------------------------------
@@ -42,8 +43,52 @@ stamp_time <- function(start_t, unit = "mins"){
     "(",
     round(difftime(Sys.time(), start_t, units = unit), 1), " ",
     unit, ")"
-  )        
+  )
 }
+
+# Load config.csv --------------------------------------------------------
+
+config_df <- suppressMessages(readr::read_csv("../config.csv"))
+
+par_utc_offset <- config_df$value[config_df$key == "utc_offset"]
+par_utc_offset <- stringr::str_trim(par_utc_offset)
+
+# Timezone offset -------------------------------------------------------
+
+if(length(par_utc_offset) == 0){ # is of length 0
+
+  # Calculate from system time
+  use_utc_offset <-
+    tz_offset(dt = Sys.Date(),
+              tz = Sys.timezone()) %>%
+    pull(utc_offset_h) %>%
+    hms::hms(hours = .) %>%
+    substr(start = 1, stop = 5)
+
+  message(
+    paste(
+      "Using system UTC timezone offset of ",
+      use_utc_offset
+    )
+    )
+
+} else {
+
+  # Use provided UTC offset
+  use_utc_offset <- par_utc_offset
+
+  message(
+    paste(
+      "Using user-defined UTC timezone offset of ",
+      use_utc_offset
+    )
+  )
+
+}
+
+
+
+
 
 #### ANALYST --------------------------------------------------------------
 # Read Zoom file ----------------------------------------------------------
@@ -118,7 +163,7 @@ zoom_output <- zoom_for_analyst %>%
 #   - standardise dates
 #   - create dummy after hours metric
 
-zoom_output %>%  
+zoom_output %>%
   mutate(Date = format(Date, "%m/%d/%Y")) %>%
   as_tibble() %>%
   write_csv(
@@ -128,7 +173,7 @@ zoom_output %>%
     na = ""
   )
 
-# Save Standard Meeting Query copy in output folder 
+# Save Standard Meeting Query copy in output folder
 smq %>%
   write_csv(
     paste("../output/Standard Meeting Query_", # UPDATE AS APPROPRIATE
