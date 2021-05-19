@@ -65,12 +65,22 @@ if(length(par_utc_offset) == 0){ # is of length 0
     hms::hms(hours = .) %>%
     substr(start = 1, stop = 5)
 
+  tz_desc <-
+    tz_offset(dt = Sys.Date(),
+              tz = Sys.timezone()) %>%
+    pull(tz_name)
+
+  message("...")
+
   message(
-    paste(
-      "Using system UTC timezone offset of ",
-      use_utc_offset
-    )
-    )
+    glue::glue("System timezone {tz_desc} detected.")
+  )
+
+  message(
+    glue::glue("Using system UTC timezone offset of {use_utc_offset}")
+  )
+
+  message("...")
 
 } else {
 
