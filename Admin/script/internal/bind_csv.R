@@ -84,7 +84,7 @@ bind_csv <- function(path,
 			  suppressWarnings(
 				readr::read_csv(file = csv_match_str[[i]])
 			  )
-			)  
+			)
           )
         })
 
