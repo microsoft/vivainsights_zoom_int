@@ -14,7 +14,7 @@ echo !n! For example: "C:\Program Files\R\R-4.0.5\bin\Rscript.exe".
 echo.
 echo !n! FINDING YOUR R INSTALLATION:
 echo !n! If you are unsure where to find 'Rscript.exe', you may run the following in a separate command prompt:
-echo !n! PowerShell ^	get-childitem -Recurse -Name rscript.exe -path C:\	
+echo !n! PowerShell ^	get-childitem -Recurse -Name rscript.exe -path C:\
 echo.
 echo.
 echo !n! ##################################################################
@@ -30,7 +30,7 @@ echo You have chosen %FileName%.
 "%FileName%" AdminBindandHash.R
 
 echo !n! ##################################################################
-echo !n! Execution successful! You may now close this window now. 
+echo !n! You may now close this window now.
 echo !n! ##################################################################
 
 PAUSE

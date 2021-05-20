@@ -37,14 +37,7 @@ source("internal/import_zoom.R")
 source("internal/split_hm.R")
 source("internal/zoom_to_afterhours.R")
 source("internal/zoom_to_pq.R")
-
-stamp_time <- function(start_t, unit = "mins"){
-  paste0(
-    "(",
-    round(difftime(Sys.time(), start_t, units = unit), 1), " ",
-    unit, ")"
-  )
-}
+source("internal/stamp_time.R")
 
 # Load config.csv --------------------------------------------------------
 
@@ -95,8 +88,6 @@ if(length(par_utc_offset) == 0){ # is of length 0
   )
 
 }
-
-
 
 
 
@@ -191,3 +182,7 @@ smq %>%
           ".csv"),
     na = ""
   )
+
+# Termination message ----------------------------------------------------
+
+message("Run complete ", path_zoom, ". ", stamp_time(start_t, unit = "mins"))
