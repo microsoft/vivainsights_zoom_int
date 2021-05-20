@@ -9,7 +9,7 @@ echo !n! Microsoft Workplace Analytics - Zoom Data Integration
 echo !n! Role: Analyst
 echo.
 echo !n! NOTE:
-echo !n! Please make sure you update parameters in 'ImportandTransform.R' before proceeding.
+echo !n! Please make sure your file names are updated according to the documentation before proceeding.
 echo.
 echo !n! ACTION REQUIRED:
 echo !n! Please choose the path to 'Rscript.exe' for your R installation.

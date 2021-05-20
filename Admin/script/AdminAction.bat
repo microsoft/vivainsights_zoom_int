@@ -9,7 +9,7 @@ echo !n! Microsoft Workplace Analytics - Zoom Data Integration
 echo !n! Role: Zoom Administrator
 echo.
 echo !n! NOTE:
-echo !n! Please ensure you remove any files prefixed with 'combined' in the 'input' sub-directory before proceeding.
+echo !n! Please read the documentation for pre-requisites before proceeding.
 echo.
 echo !n! ACTION REQUIRED:
 echo !n! Please choose the path to 'Rscript.exe' for your R installation.
