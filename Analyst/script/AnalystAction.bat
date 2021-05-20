@@ -5,6 +5,9 @@ setlocal EnableDelayedExpansion
 )
 
 echo !n! ##################################################################
+echo !n! Microsoft Workplace Analytics - Zoom Data Integration
+echo !n! Role: Analyst
+echo.
 echo !n! NOTE:
 echo !n! Please make sure you update parameters in 'ImportandTransform.R' before proceeding.
 echo.
