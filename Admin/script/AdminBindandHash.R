@@ -38,27 +38,16 @@ source("internal/import_zoom.R")
 source("internal/stamp_time.R")
 
 #### ZOOM ADMIN -----------------------------------------------------------
-# Check if files in `input` contain string "combinedwpa_" -----------------
 
-input_files <- list.files("../input")
-
-if(
-  any(
-      grepl(pattern = "combinedzoomparticipant_",
-         x = input_files)
-  )
-  ){
-    stop("There is already a file with name 'combinedzoomparticipant_' in the 'input' directory. ",
-         "Please move or delete this file before proceeding.")
-  }
-
+# Read in file names from `../input/zoom_reports`
+input_files <- list.files("../input/zoom_reports")
 
 # Output is assigned to `zoom_hashed` -------------------------------------
 
 zoom_hashed <-
   bind_and_hash(
   path = "../input",
-  pattern = "2021-04-05", # UPDATE AS APPROPRIATE
+  pattern = NULL, # UPDATE AS APPROPRIATE
   hash_path = "../input/WpA Zoom Pilot mapping file.csv", # UPDATE AS APPROPRIATE
   match_only = FALSE
 )
