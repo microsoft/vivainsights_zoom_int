@@ -6,7 +6,7 @@ setlocal EnableDelayedExpansion
 
 echo !n! ##################################################################
 echo !n! NOTE:
-echo !n! Please ensure you remove any files prefixed with 'combined' in the 'input' sub-directory before proceeding.
+echo !n! Please ensure that your input directory has the Zoom reports and the mapping file.
 echo.
 echo !n! ACTION REQUIRED:
 echo !n! Please choose the path to 'Rscript.exe' for your R installation.
@@ -16,6 +16,8 @@ echo !n! FINDING YOUR R INSTALLATION:
 echo !n! If you are unsure where to find 'Rscript.exe', you may run the following in a separate command prompt:
 echo !n! PowerShell ^	get-childitem -Recurse -Name rscript.exe -path C:\
 echo.
+echo !n! NOTE:
+echo !n! If you have performed a custom installation of R in a drive other than C:\, be sure to replace C:\ with appropriate drive name (e.g., D:\) 
 echo.
 echo !n! ##################################################################
 
