@@ -64,7 +64,14 @@ if(length(par_utc_offset) == 0){ # is of length 0
     pull(tz_name)
 
   message("...")
-
+  message("Note! All times reported in Zoom files are based on Zoom Admin timezone")
+  message("If you are based in a different timezone from the Zoom Admin, please update the config.csv")
+  message("key=utc_offset, value = relevant UTC offset for the timezone. Save the file and rerun")
+  message("...")
+  message("If you are in the same timezone as Zoom Admin, no action needed")
+  message("...")
+  message("Continuing with execution..")
+  
   message(
     glue::glue("System timezone {tz_desc} detected.")
   )
@@ -73,6 +80,7 @@ if(length(par_utc_offset) == 0){ # is of length 0
     glue::glue("Using system UTC timezone offset of {use_utc_offset}")
   )
 
+  
   message("...")
 
 } else {
@@ -113,7 +121,7 @@ if(length(path_zoom) == 0){
 
 # Read Standard Meeting Query ---------------------------------------------
 path_smq <- list.files("../input/") %>%
-  .[grepl(pattern = "Standard meeting query.csv",
+  .[grepl(pattern = "Standard meeting query",
           x = .,
           ignore.case = TRUE)]
 
@@ -134,7 +142,7 @@ if(length(path_smq) == 0){
 
 # Read in WOWA Query ------------------------------------------------------
 path_wowa <- list.files("../input/") %>%
-  .[grepl(pattern = "Ways of working assessment query.csv",
+  .[grepl(pattern = "Ways of working assessment",
           x = .,
           ignore.case = TRUE)]
 
