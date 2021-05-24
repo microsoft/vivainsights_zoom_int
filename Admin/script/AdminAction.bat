@@ -5,6 +5,9 @@ setlocal EnableDelayedExpansion
 )
 
 echo !n! ##################################################################
+echo !n! Microsoft Workplace Analytics - Zoom Data Integration
+echo !n! Role: Zoom Administrator
+echo.
 echo !n! NOTE:
 echo !n! Please ensure that your input directory has the Zoom reports and the mapping file.
 echo.
