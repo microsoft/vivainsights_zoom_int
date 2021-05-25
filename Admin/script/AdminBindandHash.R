@@ -62,7 +62,7 @@ if(length(path_map) == 0){
 
 zoom_hashed <-
   bind_and_hash(
-  path = "../input",
+  path = "../input/zoom_reports",
   pattern = NULL, # UPDATE AS APPROPRIATE
   hash_path = full_path_map,
   match_only = FALSE
