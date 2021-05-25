@@ -42,13 +42,29 @@ source("internal/stamp_time.R")
 # Read in file names from `../input/zoom_reports`
 input_files <- list.files("../input/zoom_reports")
 
+# Read mapping file -------------------------------------------------------
+
+path_map <- list.files("../input/") %>%
+  .[grepl(pattern = "mapping file.csv",
+          x = .,
+          ignore.case = TRUE)]
+
+if(length(path_map) == 0){
+
+  stop("Mapping file not found.")
+
+} else {
+
+  full_path_map <- paste0("../input/", path_map)
+}
+
 # Output is assigned to `zoom_hashed` -------------------------------------
 
 zoom_hashed <-
   bind_and_hash(
   path = "../input",
   pattern = NULL, # UPDATE AS APPROPRIATE
-  hash_path = "../input/WpA Zoom Pilot mapping file.csv", # UPDATE AS APPROPRIATE
+  hash_path = full_path_map,
   match_only = FALSE
 )
 
