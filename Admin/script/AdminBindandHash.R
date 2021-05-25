@@ -46,7 +46,7 @@ input_files <- list.files("../input/zoom_reports")
 
 zoom_hashed <-
   bind_and_hash(
-  path = "../input",
+  path = "../input/zoom_reports",
   pattern = NULL, # UPDATE AS APPROPRIATE
   hash_path = "../input/WpA Zoom Pilot mapping file.csv", # UPDATE AS APPROPRIATE
   match_only = FALSE
