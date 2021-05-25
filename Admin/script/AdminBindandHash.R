@@ -45,7 +45,7 @@ input_files <- list.files("../input/zoom_reports")
 # Read mapping file -------------------------------------------------------
 
 path_map <- list.files("../input/") %>%
-  .[grepl(pattern = "mapping file.csv",
+  .[grepl(pattern = "mapping file",
           x = .,
           ignore.case = TRUE)]
 
