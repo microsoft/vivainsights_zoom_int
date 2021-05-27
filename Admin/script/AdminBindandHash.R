@@ -7,7 +7,8 @@ packages <- c(
   "purrr",
   "readr",
   "stringr",
-  "data.table"
+  "data.table",
+	"logr"
   )
 
 # Now load or install & load all -----------------------------------------
@@ -31,6 +32,13 @@ for(x in packages){
 
 }
 
+# Initiate log -----------------------------------------------------------
+# Create log file location
+tmp <- file.path(tempdir(), paste0(start_t, ".log"))
+
+# Open log
+lf <- log_open(tmp)
+
 # Load functions ---------------------------------------------------------
 
 source("internal/bind_and_hash.R")
@@ -39,10 +47,16 @@ source("internal/stamp_time.R")
 
 #### ZOOM ADMIN -----------------------------------------------------------
 
+logr::log_print("Listing files from Zoom...")
+
 # Read in file names from `../input/zoom_reports`
 input_files <- list.files("../input/zoom_reports")
 
+logr::log_print(input_files)
+
 # Read mapping file -------------------------------------------------------
+
+logr::log_print("Reading in mapping file...")
 
 path_map <- list.files("../input/") %>%
   .[grepl(pattern = "mapping file",
@@ -57,6 +71,8 @@ if(length(path_map) == 0){
 
   full_path_map <- paste0("../input/", path_map)
 }
+
+logr::log_print("full_path_map")
 
 # Output is assigned to `zoom_hashed` -------------------------------------
 
