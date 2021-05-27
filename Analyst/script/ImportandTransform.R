@@ -163,7 +163,7 @@ if(length(path_wowa) == 0){
 zoom_output <- zoom_for_analyst %>%
   zoom_to_pq(mq_key = unique(smq$Subject),
              wowa_file = wowa_df,
-             utc_offset = "01:00", # UPDATE AS APPROPRIATE
+             utc_offset = use_utc_offset, # UPDATE AS APPROPRIATE
              return = "full")
 
 # The analyst can choose to export `zoom_output` or analyze directly
