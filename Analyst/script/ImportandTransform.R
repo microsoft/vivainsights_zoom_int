@@ -45,6 +45,8 @@ config_df <- suppressMessages(readr::read_csv("../config.csv"))
 
 par_utc_offset <- config_df$value[config_df$key == "utc_offset"]
 par_utc_offset <- stringr::str_trim(par_utc_offset)
+hash_id <- config_df$value[config_df$key == "hash_id"]
+hash_id <- stringr::str_trim(hash_id)
 
 # Timezone offset -------------------------------------------------------
 
@@ -155,6 +157,7 @@ if(length(path_wowa) == 0){
   full_path_wowa <- paste0("../input/", path_wowa)
   message("Loading in ", path_wowa, "...", stamp_time(start_t, unit = "secs"))
   wowa_df <- data.table::fread(full_path_wowa, encoding = "UTF-8")
+  names(wowa_df)[names(wowa_df) == hash_id] <- 'HashID'
   message("Successfully loaded ", path_wowa, "...", stamp_time(start_t, unit = "secs"))
 
 }
