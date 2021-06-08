@@ -172,17 +172,15 @@ zoom_output_list <-
              utc_offset = use_utc_offset, # UPDATE AS APPROPRIATE
              return = "list")
 
-zoom_output <- zoom_output_list$full
-
 # The analyst can choose to export `zoom_output` or analyze directly
 # `zoom_output` is a WOWA format person-query data frame
 # You can run the following code chunk to:
 #   - standardise dates
 #   - create dummy after hours metric
 
-zoom_output %>%
-  mutate(Date = format(Date, "%m/%d/%Y")) %>%
-  as_tibble() %>%
+message("Exporting Person Query ...", stamp_time(start_t, unit = "secs"))
+
+zoom_output_list$full %>%
   write_csv(
     paste("../output/Zoom Transformed Person Query Export", # UPDATE AS APPROPRIATE
           tstamp(),
@@ -191,9 +189,10 @@ zoom_output %>%
   )
 
 # Save Zoom metrics separately
+
+message("Exporting Zoom Metrics ...", stamp_time(start_t, unit = "secs"))
+
 zoom_output_list$`zoom-metrics` %>%
-  mutate(Date = format(Date, "%m/%d/%Y")) %>%
-  as_tibble() %>%
   write_csv(
     paste("../output/Zoom Metrics Person Query Export", # UPDATE AS APPROPRIATE
           tstamp(),

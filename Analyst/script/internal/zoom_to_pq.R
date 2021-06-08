@@ -133,7 +133,7 @@ zoom_to_pq <- function(data,
         utc_offset = utc_offset
       )
 
-  } else if(return %in% c("full", "minimal")){
+  } else if(return %in% c("full", "minimal", "list")){
 
     # Host metrics ------------------------------------------------------------
 
@@ -318,12 +318,12 @@ zoom_to_pq <- function(data,
       zm_full <-
         wowa_file %>%
         mutate(Date = as.Date(Date, "%m/%d/%Y")) %>%
+        select(
+          Date,
+          HashID
+        ) %>%
         left_join(
-          clean_pq %>%
-            select(
-              Date,
-              User_Email_2
-            ),
+          clean_pq,
           by = c("Date" = "Date",
                  "HashID" = "User_Email_2"))
 
