@@ -28,7 +28,7 @@
 #'   - `"full"`
 #'   - `"afterhours"`
 #'   - `"participants"`
-#'   - `"zoom-metrics"`
+#'   - `"list"`
 
 zoom_to_pq <- function(data,
                        mq_key = "",
@@ -304,9 +304,19 @@ zoom_to_pq <- function(data,
                   by = c("Date" = "Date",
                          "HashID" = "User_Email_2"))
 
-    } else if(return == "zoom-metrics"){
+    } else if(return == "list"){
 
-      wowa_file %>%
+      # Full metrics
+      out_full <-
+        wowa_file %>%
+        mutate(Date = as.Date(Date, "%m/%d/%Y")) %>%
+        left_join(clean_pq,
+                  by = c("Date" = "Date",
+                         "HashID" = "User_Email_2"))
+
+      # Zoom metrics
+      zm_full <-
+        wowa_file %>%
         mutate(Date = as.Date(Date, "%m/%d/%Y")) %>%
         left_join(
           clean_pq %>%
@@ -316,6 +326,12 @@ zoom_to_pq <- function(data,
             ),
           by = c("Date" = "Date",
                  "HashID" = "User_Email_2"))
+
+      # return list output
+      list(
+        "full" = out_full,
+        "zoom-metrics" = zm_full
+      )
 
     } else {
 
