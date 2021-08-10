@@ -1,4 +1,4 @@
-# Timestamp --------------------------------------------------------------
+  # Timestamp --------------------------------------------------------------
 start_t <- Sys.time()
 
 # Define packages that will be necessary for execution -------------------
@@ -194,7 +194,7 @@ message("Exporting Zoom Metrics ...", stamp_time(start_t, unit = "secs"))
 
 zoom_output_list$`zoom-metrics` %>%
   write_csv(
-    paste("../output/Zoom Metrics Person Query Export", # UPDATE AS APPROPRIATE
+    paste("../output/Standalone Zoom Metrics Export", # UPDATE AS APPROPRIATE
           tstamp(),
           ".csv"),
     na = ""
