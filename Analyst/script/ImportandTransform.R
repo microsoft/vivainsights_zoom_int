@@ -73,7 +73,7 @@ if(length(par_utc_offset) == 0){ # is of length 0
   message("If you are in the same timezone as Zoom Admin, no action needed")
   message("...")
   message("Continuing with execution..")
-  
+
   message(
     glue::glue("System timezone {tz_desc} detected.")
   )
@@ -82,7 +82,7 @@ if(length(par_utc_offset) == 0){ # is of length 0
     glue::glue("Using system UTC timezone offset of {use_utc_offset}")
   )
 
-  
+
   message("...")
 
 } else {
@@ -163,11 +163,14 @@ if(length(path_wowa) == 0){
 }
 
 # Convert to Person Query -------------------------------------------------
-zoom_output <- zoom_for_analyst %>%
+
+# A list object is returned
+zoom_output_list <-
+  zoom_for_analyst %>%
   zoom_to_pq(mq_key = unique(smq$Subject),
              wowa_file = wowa_df,
              utc_offset = use_utc_offset, # UPDATE AS APPROPRIATE
-             return = "full")
+             return = "list")
 
 # The analyst can choose to export `zoom_output` or analyze directly
 # `zoom_output` is a WOWA format person-query data frame
@@ -175,11 +178,23 @@ zoom_output <- zoom_for_analyst %>%
 #   - standardise dates
 #   - create dummy after hours metric
 
-zoom_output %>%
-  mutate(Date = format(Date, "%m/%d/%Y")) %>%
-  as_tibble() %>%
+message("Exporting Person Query ...", stamp_time(start_t, unit = "secs"))
+
+zoom_output_list$full %>%
   write_csv(
     paste("../output/Zoom Transformed Person Query Export", # UPDATE AS APPROPRIATE
+          tstamp(),
+          ".csv"),
+    na = ""
+  )
+
+# Save Zoom metrics separately
+
+message("Exporting Zoom Metrics ...", stamp_time(start_t, unit = "secs"))
+
+zoom_output_list$`zoom-metrics` %>%
+  write_csv(
+    paste("../output/Zoom Metrics Person Query Export", # UPDATE AS APPROPRIATE
           tstamp(),
           ".csv"),
     na = ""

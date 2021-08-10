@@ -28,6 +28,7 @@
 #'   - `"full"`
 #'   - `"afterhours"`
 #'   - `"participants"`
+#'   - `"list"`
 
 zoom_to_pq <- function(data,
                        mq_key = "",
@@ -132,7 +133,7 @@ zoom_to_pq <- function(data,
         utc_offset = utc_offset
       )
 
-  } else if(return %in% c("full", "minimal")){
+  } else if(return %in% c("full", "minimal", "list")){
 
     # Host metrics ------------------------------------------------------------
 
@@ -303,13 +304,40 @@ zoom_to_pq <- function(data,
                   by = c("Date" = "Date",
                          "HashID" = "User_Email_2"))
 
+    } else if(return == "list"){
+
+      # Full metrics
+      out_full <-
+        wowa_file %>%
+        mutate(Date = as.Date(Date, "%m/%d/%Y")) %>%
+        left_join(clean_pq,
+                  by = c("Date" = "Date",
+                         "HashID" = "User_Email_2"))
+
+      # Zoom metrics
+      zm_full <-
+        wowa_file %>%
+        mutate(Date = as.Date(Date, "%m/%d/%Y")) %>%
+        select(
+          Date,
+          HashID
+        ) %>%
+        left_join(
+          clean_pq,
+          by = c("Date" = "Date",
+                 "HashID" = "User_Email_2"))
+
+      # return list output
+      list(
+        "full" = out_full,
+        "zoom-metrics" = zm_full
+      )
+
     } else {
 
       stop("Invalid return.")
 
     }
-
-
 
   }
 
