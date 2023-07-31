@@ -8,8 +8,87 @@ This analysis will help leaders & analysts get a richer and more complete pictur
 
 ## Usage
 
-_To follow..._
+There are three roles or actors required in this integration solution: 
 
+1. Zoom Administrator
+2. Viva Insights Administrator
+3. Viva Insights Analyst
+
+These roles should be assigned to different individuals in order to safeguard the privacy of the analyzed population. 
+
+### 1. Setup
+
+This step will take ~20 minutes per actor and an elapsed time of ~2 days. 
+
+#### 1.1 Install R 
+
+Actor(s): Zoom Administrator, Viva Insights Analyst
+
+#### 1.2 Download the VI-Zoom Analyst Package
+
+Actor(s): Viva Insights Analyst
+
+#### 1.3 Download the VI-Zoom Administrator Package
+
+Actor(s): Zoom Administrator
+
+#### 1.4 Prepare a mapping file and insert key into the organizational data
+
+Actor(s): Viva Insights Administrator
+
+In this step, the Viva Insights Administrator has to create a mapping file `<email_id, hash_id>` to deidentify Zoom data. 
+The `hash_id` then needs to be inserted into the VI organizational data file. 
+
+### 2. Download Input Files
+
+This step will take ~3 minutes per actor and an elapsed time of ~3-4 hours. 
+
+#### 2.1 Download the Zoom report
+
+Actor(s): Zoom Administrator
+
+The Zoom Administrator has to: 
+
+1. Download the Generate Details report from Zoom Admin portal by navigating to:
+	`Admin -> Account Management -> Reports -> Usage Reports -> Active Hosts`
+2. Save the mapping file from WpA Admin and Generate Details report(s) in "Input" folder
+
+#### 2.2 Download the Ways of Working Assessment and Meeting Queries
+
+Actor(s): Viva Insights Analyst
+
+The Analyst has to run the Ways of Working Assessment, Meeting Queries and save the csv output in "Input" folder.
+
+### 3. Prepare Zoom files
+
+This step will take ~1 minute per actor and an elapsed time of ~3 minutes. 
+
+Prior to running the following scripts, the Zoom Administrator has to: 
+
+1. Confirm the Input directory has the required files
+	- Output from Generate Meeting Details
+	- Mapping file from Admin
+2. Navigate to "Script" folder 
+3. Run AdminActions.bat 
+4. Point the explorer to "Rscript.exe"
+5. Share the output with Viva Insights Analyst
+
+### 4. Ingest / Display
+
+Actor(s): Viva Insights Analyst
+
+This step will take ~1 minute per actor and an elapsed time of ~4 minutes. 
+
+The Viva Insights Analyst will have to: 
+1. Confirm the Input directory has the required files
+  - Output from Zoom Admin <combined_hashed_output>
+  - Ways of Working Assessment
+  - Standard Meeting Query
+2. Navigate to “script” folder and run AnalystActions.bat 
+3. Point the explorer to “Rscript.exe” 
+4. Locate the transformed Zoom file in “output” folder
+5. Launch the WOW-Zoom.pbit
+6. Provide the csv links to the PBIT from the output folder
 
 ## Contributing
 
