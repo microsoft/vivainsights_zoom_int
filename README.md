@@ -11,6 +11,12 @@ This analysis will help leaders & analysts get a richer and more complete pictur
 _To follow..._
 
 
+## Version
+
+`v0.2.0`
+
+This new version of the repo is being updated to be compatible with the latest implementation of Viva Insights (July 2023).
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
