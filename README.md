@@ -22,15 +22,22 @@ This step will take ~20 minutes per actor and an elapsed time of ~2 days.
 
 #### 1.1 Install R 
 
-Actor(s): Zoom Administrator, Viva Insights Analyst
+- Actor(s): Zoom Administrator, Viva Insights Analyst
+- Both the Zoom Administrator and the Viva Insights Analyst will need to download and install R on their machines. Instructions for installation are [here](https://cran.r-project.org/bin/windows/base/).
 
 #### 1.2 Download the VI-Zoom Analyst Package
 
 Actor(s): Viva Insights Analyst
 
+- This can be downloaded via this [link](https://github.com/microsoft/vivainsights_zoom_int/archive/refs/heads/main/Admin.zip). 
+- Only the 'Analyst' sub-directory would be relevant for the Analyst. 
+
 #### 1.3 Download the VI-Zoom Administrator Package
 
 Actor(s): Zoom Administrator
+
+- This can be downloaded via this [link](https://github.com/microsoft/vivainsights_zoom_int/archive/refs/heads/main/Admin.zip). 
+- Only the 'Administrator' sub-directory would be relevant for the Administrator. 
 
 #### 1.4 Prepare a mapping file and insert key into the organizational data
 
