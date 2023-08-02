@@ -1,14 +1,16 @@
 # Viva Insights Zoom Data Integration
 
-v0.2.0
+`v0.2.0`
 
 ## Summary
 
-The Zoom Collaboration analysis provides analysts with an opportunity to derive meaningful additional collaboration metrics from Zoom meeting reports that complement existing metrics provided by Workplace Analytics. 
+The Zoom Data Integration solution with Viva Insights provides analysts with an opportunity to derive meaningful additional collaboration metrics from Zoom meeting reports that complement existing metrics provided by Viva Insights. 
 
-Analysts can use this to understand collaboration that occurs on Zoom with a primary focus on unscheduled collaboration. Analysts can download the output either as a standalone .csv file with collaboration metrics for unscheduled Zoom calls or as a Ways of working assessment input file (with Zoom collaboration metrics). A modified Ways of working assessment Power BI template can also be used, but is no longer supported as of `v0.2.0`
+This repository provides the tools for Analysts to generate metrics from Zoom exports that are compatible and can be joined with Viva Insights person queries. 
 
-This analysis will help leaders & analysts get a richer and more complete picture of the collaboration patterns of their organization.
+Analysts can use this solution to understand collaboration that occurs on Zoom with a primary focus on _unscheduled collaboration_. Analysts can download the output either as a standalone .csv file with collaboration metrics for unscheduled Zoom calls or as a Ways of working assessment input file (with Zoom collaboration metrics). A modified Ways of working assessment Power BI template can also be used, but is no longer supported as of `v0.2.0`
+
+The aim of this solution is to help leaders and analysts get a richer and more complete picture of the collaboration patterns in their organization.
 
 ---
 
