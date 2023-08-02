@@ -15,7 +15,7 @@
 #'   - `PersonID`: column containing email addresses that map to the Zoom
 #'   `User_Name` columns.
 #'   - `HashID`: column containing HashIDs which will be uploaded as
-#'   organizational attributes to Workplace Analytics.
+#'   organizational attributes to Viva Insights.
 #' @param match_only logical. Determines whether to include only rows where
 #' there is a corresponding match on the hash file. Defaults to `FALSE`.
 #'
