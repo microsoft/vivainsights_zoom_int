@@ -6,7 +6,7 @@ Analysts can use this to understand collaboration that occurs on Zoom with a pri
 
 This analysis will help leaders & analysts get a richer and more complete picture of the collaboration patterns of their organization.
 
-## Usage
+## Detailed Usage
 
 There are three roles or actors required in this integration solution: 
 
@@ -37,14 +37,14 @@ Actor(s): Viva Insights Analyst
 Actor(s): Zoom Administrator
 
 - This can be downloaded via this [link](https://github.com/microsoft/vivainsights_zoom_int/archive/refs/heads/main/Admin.zip). 
-- Only the 'Administrator' sub-directory would be relevant for the Administrator. 
+- Only the 'Admin' sub-directory would be relevant for the Administrator. 
 
 #### 1.4 Prepare a mapping file and insert key into the organizational data
 
 Actor(s): Viva Insights Administrator
 
-In this step, the Viva Insights Administrator has to create a mapping file `<email_id, hash_id>` to deidentify Zoom data. 
-The `hash_id` then needs to be inserted into the VI organizational data file. 
+- In this step, the Viva Insights Administrator has to create a mapping file `<email_id, hash_id>` to deidentify Zoom data, in `csv` format. This should be saved in the root of the `input` folder, and the file name should have the literal string `mapping file` in the name. 
+- The `hash_id` then needs to be inserted into the VI organizational data file. 
 
 ### 2. Download Input Files
 
@@ -58,44 +58,87 @@ The Zoom Administrator has to:
 
 1. Download the Generate Details report from Zoom Admin portal by navigating to:
 	`Admin -> Account Management -> Reports -> Usage Reports -> Active Hosts`
-2. Save the mapping file from WpA Admin and Generate Details report(s) in "Input" folder
+2. Save the mapping file from the Viva Insights Administrator as well the output of the Generate Details report(s) in the `input` folder.
 
 #### 2.2 Download the Ways of Working Assessment and Meeting Queries
 
 Actor(s): Viva Insights Analyst
 
-The Analyst has to run the Ways of Working Assessment, Meeting Queries and save the csv output in "Input" folder.
+The Analyst has to run the following Ways of Working Assessment query, and save the csv output in the `Analyst > input`.
 
 ### 3. Prepare Zoom files
 
-This step will take ~1 minute per actor and an elapsed time of ~3 minutes. 
+Actor(s): Zoom Administrator
+
+This step will take ~1 minute and an elapsed time of ~3 minutes. 
 
 Prior to running the following scripts, the Zoom Administrator has to: 
 
 1. Confirm the Input directory has the required files
-	- Output from Generate Meeting Details
-	- Mapping file from Admin
-2. Navigate to "Script" folder 
-3. Run AdminActions.bat 
-4. Point the explorer to "Rscript.exe"
+	- Output from "Generate Meeting Details"
+	- Mapping file received from the Viva Insights Administrator
+2. Navigate to `Admin > script` folder 
+3. Run `AdminAction.bat`
+4. Point the explorer to `Rscript.exe`
 5. Share the output with Viva Insights Analyst
 
 ### 4. Ingest / Display
 
 Actor(s): Viva Insights Analyst
 
-This step will take ~1 minute per actor and an elapsed time of ~4 minutes. 
+This step will take ~1 minute to run and an elapsed time of ~4 minutes. 
 
 The Viva Insights Analyst will have to: 
-1. Confirm the Input directory has the required files
+1. Confirm the `Analyst > input` directory has the required files
   - Output from Zoom Admin <combined_hashed_output>
   - Ways of Working Assessment
-  - Standard Meeting Query
-2. Navigate to “script” folder and run AnalystActions.bat 
-3. Point the explorer to “Rscript.exe” 
-4. Locate the transformed Zoom file in “output” folder
-5. Launch the WOW-Zoom.pbit
-6. Provide the csv links to the PBIT from the output folder
+2. Navigate to `Analyst > script` folder and run `AnalystActions.bat`
+3. Point the explorer to `Rscript.exe`
+4. Locate the transformed Zoom file in `Analyst > output` folder
+5. Launch the `WOW-Zoom.pbit`*
+6. Provide the csv links to the PBIT from the output folder*
+
+*These steps are only relevant for running a Power BI template. This is no longer supported in the new version of Viva Insights.
+
+## Instructions by role - Summary
+
+There are three roles or actors required in this integration solution: 
+
+1. Zoom Administrator
+2. Viva Insights Administrator
+3. Viva Insights Analyst
+
+### Instructions for Zoom Administrator
+
+1. Install R on your machine. Instructions for installation are [here](https://cran.r-project.org/bin/windows/base/).
+2. Download the VI-Zoom Administrator Package via this [link](https://github.com/microsoft/vivainsights_zoom_int/archive/refs/heads/main/Admin.zip). 
+3. Save the downloaded package in the root directory.
+4. Confirm that the Input directory has the required files:
+  - Output from "Generate Meeting Details"
+  - Mapping file received from the Viva Insights Administrator.
+5. Navigate to `Admin > script` folder.
+6. Run `AdminAction.bat`.
+7. Point the explorer to `Rscript.exe`.
+8. Share the output with Viva Insights Analyst.
+
+### Instructions for Viva Insights Administrator
+
+1. Create a mapping file `<email_id, hash_id>` to deidentify Zoom data, in `csv` format. This should be saved in the root of the `input` folder, and the file name should have the literal string `mapping file` in the name. 
+2. Insert the `hash_id` into the VI organizational data file.
+
+### Instructions for Viva Insights Analyst
+
+1. Install R on your machine. Instructions for installation are [here](https://cran.r-project.org/bin/windows/base/).
+2. Download the VI-Zoom Analyst Package via this [link](https://github.com/microsoft/vivainsights_zoom_int/archive/refs/heads/main/Admin.zip). 
+3. Save the downloaded package in the root directory.
+4. Run the Ways of Working Assessment query, and save the csv output in the `Analyst > input`.
+5. Confirm that the `Analyst > input` directory has the required files:
+  - Output from Zoom Admin <combined_hashed_output>
+  - Ways of Working Assessment query (`csv` file)
+6. Navigate to `Analyst > script` folder and run `AnalystActions.bat`.
+7. Point the explorer to `Rscript.exe`.
+8. Locate the transformed Zoom file in `Analyst > output` folder.
+
 
 ## Contributing
 
