@@ -3,7 +3,7 @@ start_t <- Sys.time()
 
 # Define packages that will be necessary for execution ------------------
 packages <- c(
-	"dplyr",
+  "dplyr",
   "purrr",
   "readr",
   "stringr",
@@ -78,7 +78,7 @@ zoom_hashed %>%
   )
 
 message(paste("Hashed Zoom file saved to", path_zoom_hashed))
-message("Please send the hashed file to Workplace Analytics Analyst.")
+message("Please send the hashed file to Viva Insights Analyst.")
 
 # ZOOM ADMIN SENDS OUTPUT HASH FILE TO ANALYST
 
