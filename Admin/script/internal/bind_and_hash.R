@@ -109,9 +109,9 @@ bind_and_hash <- function(path,
   # Drop unnecessary columns ------------------------------------------------
 
   zoom_dt[, User_Name := NULL]
-  zoom_dt[, X13 := NULL]
-  zoom_dt[, Display_name := NULL]
-  zoom_dt[, Phone_numberName_Original_Name := NULL]
+  # zoom_dt[, X13 := NULL]
+  # zoom_dt[, Display_name := NULL]
+  # zoom_dt[, Phone_numberName_Original_Name := NULL]
 
   # Standardize cases prior to replacement ----------------------------------
 
