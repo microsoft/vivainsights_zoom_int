@@ -99,6 +99,10 @@ After the above is done, the **Zoom Administrator** can proceed to set up the Zo
 
 Once the scripts has completed running, the **Zoom Administrator** can then share the output with the **Viva Insights Analyst**.
 
+If the run is successful, you should be able to see an output similar to the following screenshot:
+![image](https://github.com/microsoft/vivainsights_zoom_int/assets/17925865/9f8d2dbd-3147-4625-a41b-3bc1180f5f66)
+
+
 ### 4. Ingestion
 
 This step will take ~1 minute to run and an elapsed time of ~4 minutes. This step joins the output dataset created by the **Zoom Administrator** with the _Ways of Working Assessment query_ downloaded by the **Viva Insights Analyst**.
