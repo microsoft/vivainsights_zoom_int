@@ -39,7 +39,9 @@ These roles should be assigned to different individuals in order to safeguard th
 
 ### Viva Insights Administrator
 
-1. Create a mapping file `<email_id, hash_id>` to deidentify Zoom data, in `csv` format. This should be saved in the root of the `input` folder, and the file name should have the literal string `mapping file` in the name. 
+1. Create a mapping file `<email_id, hash_id>` to deidentify Zoom data, in `csv` format. This should be saved in the root of the `input` folder, and the file name should have the literal string `mapping file` in the name. It should have the following columns in the file:
+    - `PersonID`
+    - `HashID`
 2. Insert the `hash_id` into the VI organizational data file.
 
 ### Viva Insights Analyst
@@ -67,7 +69,10 @@ Both the **Zoom Administrator** and the **Viva Insights Analyst** will need to d
 The **Zoom Administrator** and the **Viva Insights Analyst** will both have to download the repo via [here](https://github.com/microsoft/vivainsights_zoom_int/archive/refs/heads/main/Admin.zip). Only the 'Analyst' sub-directory would be relevant for the Analyst, and only the 'Admin' sub-directory would be relevant for the Zoom Administrator. 
 
 The **Viva Insights Administrator** has to create a mapping file `<email_id, hash_id>` to deidentify Zoom data, in `csv` format. This should be saved in the root of the `input` folder, and the file name should have the literal string `mapping file` in the name. 
-- The `hash_id` then needs to be inserted into the VI organizational data file. 
+  - The `hash_id` then needs to be inserted into the VI organizational data file. 
+  - It should have the following colujmns in the file:
+      - `PersonID`
+      - `HashID`
 
 ### 2. Download Input Files
 
