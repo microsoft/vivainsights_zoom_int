@@ -5,7 +5,7 @@ setlocal EnableDelayedExpansion
 )
 
 echo !n! ##################################################################
-echo !n! Microsoft Workplace Analytics - Zoom Data Integration
+echo !n! Microsoft Viva Insights - Zoom Data Integration
 echo !n! Role: Zoom Administrator
 echo.
 echo !n! NOTE:
