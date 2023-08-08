@@ -5,11 +5,11 @@ setlocal EnableDelayedExpansion
 )
 
 echo !n! ##################################################################
-echo !n! Microsoft Workplace Analytics - Zoom Data Integration
+echo !n! Microsoft Viva Insights - Zoom Data Integration
 echo !n! Role: Analyst
 echo.
 echo !n! NOTE:
-echo !n! Please make sure the input directory has the Ways of Working Assessment Query, Standard Meeting Query, Hashed Zoom File from Zoom Admin and UTC_offset.rds.
+echo !n! Please make sure the input directory has the Ways of Working Assessment Query and the Hashed Zoom File from Zoom Admin and UTC_offset.rds.
 echo !n! Check that your file names are updated as per the format specified in the documentation before proceeding.
 echo.
 echo !n! ACTION REQUIRED:
