@@ -4,6 +4,7 @@ start_t <- Sys.time()
 # Define packages that will be necessary for execution -------------------
 packages <- c(
 	"wpa",
+  "vivainsights",
 	"tidyverse",
   "data.table",
   "hms",
@@ -104,7 +105,7 @@ if(length(par_utc_offset) == 0){ # is of length 0
 #### ANALYST --------------------------------------------------------------
 # Read Zoom file ----------------------------------------------------------
 path_zoom <- list.files("../input/") %>%
-  .[grepl(pattern = "Hashed Zoom File from Zoom Admin.csv",
+  .[grepl(pattern = "Hashed Zoom File from Zoom Admin",
           x = .,
           ignore.case = TRUE)]
 
@@ -140,11 +141,9 @@ if(length(path_smq) == 0){
 
 }
 
-
-
 # Read in WOWA Query ------------------------------------------------------
 path_wowa <- list.files("../input/") %>%
-  .[grepl(pattern = "Ways of working assessment",
+  .[grepl(pattern = "Ways of working assessment|WOWA",
           x = .,
           ignore.case = TRUE)]
 
@@ -156,7 +155,7 @@ if(length(path_wowa) == 0){
 
   full_path_wowa <- paste0("../input/", path_wowa)
   message("Loading in ", path_wowa, "...", stamp_time(start_t, unit = "secs"))
-  wowa_df <- data.table::fread(full_path_wowa, encoding = "UTF-8")
+  wowa_df <- vivainsights::import_query(full_path_wowa)
   names(wowa_df)[names(wowa_df) == hash_id] <- 'HashID'
   message("Successfully loaded ", path_wowa, "...", stamp_time(start_t, unit = "secs"))
 
