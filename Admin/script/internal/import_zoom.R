@@ -1,17 +1,17 @@
-import_zoom <- function(path, date_format = "%m/%d/%Y %H:%M:%S"){
+import_zoom <- function(path, date_format = "%d/%m/%Y %H:%M"){
 
   dt <-
     suppressWarnings(
       data.table::fread(path, encoding = "UTF-8"),
       )
 
-  return_dt <- dt
-  # return_dt <- clean_zoom(dt)
+  # return_dt <- dt
+  return_dt <- clean_zoom(dt)
 
   return_dt
 }
 
-clean_zoom <- function(x, date_format = "%m/%d/%Y %H:%M:%S"){
+clean_zoom <- function(x, date_format = "%d/%m/%Y %H:%M"){
 
   x %>%
     # Remove blanks -------------------------------------------------------
