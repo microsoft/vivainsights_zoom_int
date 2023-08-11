@@ -82,6 +82,7 @@ bind_and_hash <- function(path,
   csv_match_str <- paste0(path, "/", csv_match_str)
 
   # Read all csv files in ---------------------------------------------------
+  # Run `clean_zoom()` on each file
 
   readin_list <-
     seq(1, length(csv_match_str)) %>%
@@ -119,7 +120,6 @@ bind_and_hash <- function(path,
   zoom_dt[, User_Email_1 := str_trim(tolower(User_Email_1))]
   zoom_dt[, User_Email_2 := str_trim(tolower(User_Email_2))]
 
-
   # Replace `User_Email_1` --------------------------------------------------
   setkey(zoom_dt, "User_Email_1")
   setkey(hash_dt, "PersonID")
@@ -146,6 +146,23 @@ bind_and_hash <- function(path,
     paste("Total runtime for `bind_and_hash()`: ",
           round(difftime(Sys.time(), start_t, units = "mins"), 1),
           "minutes.")
+  )
+
+  message(
+    paste("Total number of rows in output data: ",
+          nrow(zoom_dt))
+  )
+
+  message(
+    paste("Total number of columns in output data: ",
+          ncol(zoom_dt))
+  )
+
+  message(
+    paste("Total number of users in output data: ",
+          zoom_dt %>%
+          dplyr::pull(User_Email_1) %>%
+          dplyr::n_distinct())
   )
 
   # Remove non-matches ------------------------------------------------------
