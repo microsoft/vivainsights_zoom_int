@@ -70,7 +70,11 @@ zoom_hashed <-
 
 # Export Hashed Zoom File for Analyst -------------------------------------
 
-path_zoom_hashed <- "../output/Hashed Zoom File from Zoom Admin.csv" # UPDATE AS APPROPRIATE
+path_zoom_hashed <- paste0(
+  "../output/Hashed Zoom File from Zoom Admin_", # UPDATE AS APPROPRIATE
+  wpa::tstamp(),
+  ".csv"
+)
 
 zoom_hashed %>%
   data.table::fwrite(
