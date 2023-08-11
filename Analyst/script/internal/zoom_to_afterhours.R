@@ -39,11 +39,11 @@ zoom_to_afterhours <- function(data,
 
   wowa_tz <-
     wowa_df %>%
-    mutate(Date = as.Date(Date, "%m/%d/%Y")) %>%
+    mutate(MetricDate = as.Date(MetricDate, "%m/%d/%Y")) %>%
     select(
       PersonId,
       HashID,
-      Date,
+      MetricDate,
       TimeZone,
       WorkingStartTimeSetInOutlook,
       WorkingEndTimeSetInOutlook
@@ -79,16 +79,16 @@ zoom_to_afterhours <- function(data,
 
   interim1 <-
     data %>%
-    mutate(Date = lubridate::floor_date(Start_Time, unit = "weeks",
+    mutate(MetricDate = lubridate::floor_date(Start_Time, unit = "weeks",
                                         week_start = 7) %>%
              as.Date()) %>% # Start on Sunday
-    select(User_Email_2, Date, Join_Time, Leave_Time, UniqueMeetingID) %>%
+    select(User_Email_2, MetricDate, Join_Time, Leave_Time, UniqueMeetingID) %>%
     filter(!is.na(User_Email_2)) %>%
     left_join(
       wowa_tz,
       by = c(
         "User_Email_2" = "HashID",
-        "Date"
+        "MetricDate"
       )
     ) %>%
     mutate(WorkingStartTimeSetInOutlook = split_hm(remove_colon(WorkingStartTimeSetInOutlook)),
