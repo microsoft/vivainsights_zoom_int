@@ -142,6 +142,7 @@ if(length(path_smq) == 0){
 }
 
 # Read in WOWA Query ------------------------------------------------------
+
 path_wowa <- list.files("../input/") %>%
   .[grepl(pattern = "Ways of working assessment|WOWA",
           x = .,
@@ -156,10 +157,18 @@ if(length(path_wowa) == 0){
   full_path_wowa <- paste0("../input/", path_wowa)
   message("Loading in ", path_wowa, "...", stamp_time(start_t, unit = "secs"))
   wowa_df <- vivainsights::import_query(full_path_wowa)
-  names(wowa_df)[names(wowa_df) == hash_id] <- 'HashID'
+  names(wowa_df)[names(wowa_df) == hash_id] <- 'HashID' # gets imputed
   message("Successfully loaded ", path_wowa, "...", stamp_time(start_t, unit = "secs"))
 
 }
+
+# Workaround for after-hours whilst columns are unavailable in Nova
+wowa_df <-
+  wowa_df %>%
+  mutate(
+    WorkingStartTimeSetInOutlook = "09:00",
+    WorkingEndTimeSetInOutlook = "17:00"
+  )
 
 # Convert to Person Query -------------------------------------------------
 
