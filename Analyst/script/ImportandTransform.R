@@ -46,6 +46,8 @@ config_df <- suppressMessages(readr::read_csv("../config.csv"))
 
 par_utc_offset <- config_df$value[config_df$key == "utc_offset"]
 par_utc_offset <- stringr::str_trim(par_utc_offset)
+
+# `hash_id` stores the value of `hash_id` in `config.csv`
 hash_id <- config_df$value[config_df$key == "hash_id"]
 hash_id <- stringr::str_trim(hash_id)
 
