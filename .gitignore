@@ -45,3 +45,4 @@ _dev/
 # Data files
 *.csv
 *.xlsx
+*.rds
