@@ -51,6 +51,9 @@ par_utc_offset <- stringr::str_trim(par_utc_offset)
 hash_id <- config_df$value[config_df$key == "hash_id"]
 hash_id <- stringr::str_trim(hash_id)
 
+outlook_start <- config_df$value[config_df$key == "outlook_start"]
+outlook_end <- config_df$value[config_df$key == "outlook_end"]
+
 # Timezone offset -------------------------------------------------------
 
 if(length(par_utc_offset) == 0){ # is of length 0
@@ -168,8 +171,8 @@ if(length(path_wowa) == 0){
 wowa_df <-
   wowa_df %>%
   mutate(
-    WorkingStartTimeSetInOutlook = "09:00",
-    WorkingEndTimeSetInOutlook = "17:00"
+    WorkingStartTimeSetInOutlook = outlook_start,
+    WorkingEndTimeSetInOutlook = outlook_end
   )
 
 # Convert to Person Query -------------------------------------------------
