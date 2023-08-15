@@ -25,6 +25,7 @@ The **Viva Insights Analyst** should run `script/AnalystAction.bat` once the abo
 Use the CSV to specify the following configurations:
 - The column name corresponding to `hash_id` in the mapping file.
 - The UTC offset based on the timezone of the Zoom Administrator.
+- Enter the Outlook Start and End Times override for the Zoom population.
 
 ### `ImportandTransform.R`
 
@@ -42,3 +43,25 @@ Some of the specific tasks performed by the script include:
 - Writing the cleaned and transformed data to a new CSV file for further analysis
 
 The script also includes a configuration file (`config.csv`) that allows users to customize certain aspects of the data transformation process, such as the time zone offset and the file paths for the input and output files.
+
+### Columns created from Zoom data
+
+The following columns are created from the Zoom meeting participants data:
+
+- `Zoom_Unscheduled_call_hours`
+- `Zoom_Scheduled_call_hours`
+- `Zoom_Total_call_hours`
+- `Zoom_Unscheduled_call_hours_30_mins_or_less`
+- `Zoom_Unscheduled_call_hours_31_to_59_mins`
+- `Zoom_Unscheduled_call_hours_1_hour`
+- `Zoom_Unscheduled_call_hours_1_to_2_hours`
+- `Zoom_Unscheduled_call_hours_more_than_2_hours`
+- `Zoom_Unscheduled_call_hours_2_attendees`
+- `Zoom_Unscheduled_call_hours_3_to_8_attendees`
+- `Zoom_Unscheduled_call_hours_9_to_18_attendees`
+- `Zoom_Unscheduled_call_hours_19_or_more_attendees`
+- `Zoom_Meetings`
+- `Zoom_Unscheduled_Meetings`
+- `Zoom_Scheduled_Meetings`
+- `Zoom_After_hours_in_unscheduled_calls`
+- `Zoom_After_hours_in_scheduled_calls`
