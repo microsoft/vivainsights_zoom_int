@@ -313,8 +313,8 @@ zoom_to_pq <- function(data,
   # print(as.Date(unique(wowa_file['MetricDate'], "%Y-%m-%d")))
   # stop('Debugging')
 
-    wowa_file %>% saveRDS(paste("../output/diagnostics/wowa_file_", tstamp(), ".rds"))
-    clean_pq %>% saveRDS(paste("../output/diagnostics/clean_pq_", tstamp(), ".rds"))
+  # wowa_file %>% saveRDS(paste("../output/diagnostics/wowa_file_", tstamp(), ".rds"))
+  # clean_pq %>% saveRDS(paste("../output/diagnostics/clean_pq_", tstamp(), ".rds"))
 
     # Return conditional -----------------------------------------------------
 
@@ -345,7 +345,7 @@ zoom_to_pq <- function(data,
         # mutate(MetricDate = as.Date(MetricDate, "%m/%d/%Y")) %>%
         left_join(clean_pq,
                   by = c("MetricDate" = "MetricDate",
-                         "HashID" = "User_Email_2")) #TODO: align with `config.csv`
+                         "HashID" = "User_Email_2")) 
 
     } else if(return == "list"){
 
@@ -356,7 +356,7 @@ zoom_to_pq <- function(data,
         # mutate(MetricDate = as.Date(MetricDate, "%m/%d/%Y")) %>%
         left_join(clean_pq,
                   by = c("MetricDate" = "MetricDate",
-                         "HashID" = "User_Email_2")) #TODO: align with `config.csv`
+                         "HashID" = "User_Email_2")) 
 
       # Zoom metrics
       zm_full <-
@@ -370,7 +370,7 @@ zoom_to_pq <- function(data,
         left_join(
           clean_pq,
           by = c("MetricDate" = "MetricDate",
-                 "HashID" = "User_Email_2")) #TODO: align with `config.csv`
+                 "HashID" = "User_Email_2")) 
 
       # return list output
       list(
