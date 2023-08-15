@@ -38,3 +38,11 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 vivainsights_zoom_int.Rproj
+
+# Dev files
+_dev/
+
+# Data files
+*.csv
+*.xlsx
+*.rds

@@ -4,6 +4,7 @@ start_t <- Sys.time()
 # Define packages that will be necessary for execution -------------------
 packages <- c(
 	"wpa",
+  "vivainsights",
 	"tidyverse",
   "data.table",
   "hms",
@@ -45,8 +46,13 @@ config_df <- suppressMessages(readr::read_csv("../config.csv"))
 
 par_utc_offset <- config_df$value[config_df$key == "utc_offset"]
 par_utc_offset <- stringr::str_trim(par_utc_offset)
+
+# `hash_id` stores the value of `hash_id` in `config.csv`
 hash_id <- config_df$value[config_df$key == "hash_id"]
 hash_id <- stringr::str_trim(hash_id)
+
+outlook_start <- config_df$value[config_df$key == "outlook_start"]
+outlook_end <- config_df$value[config_df$key == "outlook_end"]
 
 # Timezone offset -------------------------------------------------------
 
@@ -104,7 +110,7 @@ if(length(par_utc_offset) == 0){ # is of length 0
 #### ANALYST --------------------------------------------------------------
 # Read Zoom file ----------------------------------------------------------
 path_zoom <- list.files("../input/") %>%
-  .[grepl(pattern = "Hashed Zoom File from Zoom Admin.csv",
+  .[grepl(pattern = "Hashed Zoom File from Zoom Admin",
           x = .,
           ignore.case = TRUE)]
 
@@ -140,11 +146,10 @@ if(length(path_smq) == 0){
 
 }
 
-
-
 # Read in WOWA Query ------------------------------------------------------
+
 path_wowa <- list.files("../input/") %>%
-  .[grepl(pattern = "Ways of working assessment",
+  .[grepl(pattern = "Ways of working assessment|WOWA",
           x = .,
           ignore.case = TRUE)]
 
@@ -156,11 +161,19 @@ if(length(path_wowa) == 0){
 
   full_path_wowa <- paste0("../input/", path_wowa)
   message("Loading in ", path_wowa, "...", stamp_time(start_t, unit = "secs"))
-  wowa_df <- data.table::fread(full_path_wowa, encoding = "UTF-8")
-  names(wowa_df)[names(wowa_df) == hash_id] <- 'HashID'
+  wowa_df <- vivainsights::import_query(full_path_wowa)
+  names(wowa_df)[names(wowa_df) == hash_id] <- 'HashID' # gets imputed
   message("Successfully loaded ", path_wowa, "...", stamp_time(start_t, unit = "secs"))
 
 }
+
+# Workaround for after-hours whilst columns are unavailable in Nova
+wowa_df <-
+  wowa_df %>%
+  mutate(
+    WorkingStartTimeSetInOutlook = outlook_start,
+    WorkingEndTimeSetInOutlook = outlook_end
+  )
 
 # Convert to Person Query -------------------------------------------------
 

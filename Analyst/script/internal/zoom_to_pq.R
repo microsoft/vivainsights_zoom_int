@@ -87,7 +87,7 @@ zoom_to_pq <- function(data,
     mutate(BookGap = Start_Time - Creation_Time) %>%
     mutate(BookGap = as.numeric(BookGap, "mins")) %>%
     mutate(Meeting_ID_num =
-             Meeting_ID %>%
+             MeetingID %>%
              gsub(pattern = " ", replacement = "", x = .)) %>%
     mutate(Rule1 = ifelse(InSMQ == FALSE & nchar(Meeting_ID_num) %in% c(9, 10), TRUE, FALSE)) %>%
     mutate(Rule2 = ifelse(InSMQ == FALSE & BookGap < 2 & nchar(Meeting_ID_num) == 11, TRUE, FALSE)) %>%
@@ -96,17 +96,19 @@ zoom_to_pq <- function(data,
     mutate(DurationHours_1 = Duration_Minutes_1 / 60,
            DurationHours_2 = Duration_Minutes_2 / 60) %>%
     # Use Meeting Start Date
-    mutate(Date = lubridate::floor_date(Start_Time, unit = "weeks",
+    mutate(MetricDate = lubridate::floor_date(Start_Time, unit = "weeks",
                                         week_start = 7) %>%
              as.Date()) %>% # Start on Sunday
-    mutate(DayOfWeek = lubridate::wday(Date, label = TRUE)) %>%
+    mutate(DayOfWeek = lubridate::wday(MetricDate, label = TRUE)) %>%
     mutate(UniqueMeetingID = paste(
-      Meeting_ID,
+      MeetingID,
       Topic,
       Start_Time,
       User_Email_1,
       Participants,
-      sep = "_"))
+      sep = "_")) %>%
+    dplyr::filter(!is.na(User_Email_2)) %>% # Exclude unmatched participants
+    dplyr::filter(nchar(User_Email_2) >= 1) # At least 1 character
 
   if(return == "participants"){
 
@@ -164,22 +166,49 @@ zoom_to_pq <- function(data,
       wowa_file = wowa_df,
       utc_offset = utc_offset
     ) %>%
-      select(User_Email_2,
-             UniqueMeetingID,
-             After_hours,
-             IsAfterhours,
-             Join_Time,
-             Leave_Time)
-
+      select(
+        User_Email_2,
+        UniqueMeetingID,
+        After_hours,
+        IsAfterhours,
+        Join_Time,
+        Leave_Time
+        ) %>%
+      filter(!is.na(User_Email_2)) %>% # Exclude unmatched participants
+      filter(nchar(User_Email_2) >= 1) # At least 1 character
 
     # Move to person level ----------------------------------------------------
 
     message("Computing metrics at a person-level... ",
             "(", round(difftime(Sys.time(), start_t, units = "secs"), 1), " secs)")
 
+    # Diagnostic checks -------------------------------------------------------
+    # TOGGLE
+    # clean_participants %>%
+    #   # mutate(UE2Check = nchar(User_Email_2)) %>%
+    #   write_csv(paste("../output/clean_participants_", tstamp(), ".csv"), na = "")
+
+    # ahmetrics_part %>%
+    #   # mutate(UE2Check = nchar(User_Email_2)) %>%
+    #   write_csv(paste("../output/ahmetrics_part_", tstamp(), ".csv"), na = "")
+
+    # Duplicates handling -----------------------------------------------------
+
+    # Check for duplicate rows in both data frames
+    if (any(duplicated(clean_participants))) {
+      n_dup_x <- sum(duplicated(clean_participants))
+      clean_participants <- distinct(clean_participants)
+      message(paste0("Removed ", n_dup_x, " duplicated rows from `clean_participants`"))
+    }
+    if (any(duplicated(ahmetrics_part))) {
+        n_dup_y <- sum(duplicated(ahmetrics_part))
+        ahmetrics_part <- distinct(ahmetrics_part)
+        message(paste0("Removed ", n_dup_y, " duplicated rows from `ahmetrics_part`"))
+    }
+
+    # Join after-hours metrics -------------------------------------------------
     clean_pq <-
       clean_participants %>%
-      filter(!is.na(User_Email_2)) %>% # Exclude unmatched participants
       left_join(
         ahmetrics_part,
         by = c("User_Email_2",
@@ -187,7 +216,7 @@ zoom_to_pq <- function(data,
                "Join_Time",
                "Leave_Time")
       ) %>%
-      group_by(Date, User_Email_2) %>%
+      group_by(MetricDate, User_Email_2) %>%
       summarise(
         Zoom_Unscheduled_call_hours =
           sum(DurationHours_2[IsUnscheduled == TRUE], na.rm = TRUE),
@@ -274,22 +303,36 @@ zoom_to_pq <- function(data,
             "minutes.")
     )
 
+  # Debugging ----------------------------------------------------------------
+
+  # message("From `wowa_file`:")
+  # print(unique(wowa_file['MetricDate']))
+  # message("From `clean_pq``:")
+  # print(unique(clean_pq['MetricDate']))
+  # message("From `wowa_file`, transformed:")
+  # print(as.Date(unique(wowa_file['MetricDate'], "%Y-%m-%d")))
+  # stop('Debugging')
+
+  # wowa_file %>% saveRDS(paste("../output/diagnostics/wowa_file_", tstamp(), ".rds"))
+  # clean_pq %>% saveRDS(paste("../output/diagnostics/clean_pq_", tstamp(), ".rds"))
+
     # Return conditional -----------------------------------------------------
 
     if(return == "full"){
 
       wowa_file %>%
-        mutate(Date = as.Date(Date, "%m/%d/%Y")) %>%
+        mutate(MetricDate = as.Date(MetricDate, "%Y-%m-%d")) %>%
+        # mutate(MetricDate = as.Date(MetricDate, "%m/%d/%Y")) %>%
         left_join(clean_pq,
-                  by = c("Date" = "Date",
-                         "HashID" = "User_Email_2"))
+                  by = c("MetricDate" = "MetricDate",
+                         "HashID" = "User_Email_2")) #TODO: align with `config.csv`
 
     } else if(return == "minimal"){
 
       clean_pq <-
         clean_pq %>%
         select(
-          Date,
+          MetricDate,
           User_Email_2,
           Zoom_Unscheduled_call_hours,
           Zoom_Scheduled_call_hours,
@@ -299,33 +342,35 @@ zoom_to_pq <- function(data,
         )
 
       wowa_file %>%
-        mutate(Date = as.Date(Date, "%m/%d/%Y")) %>%
+        # mutate(MetricDate = as.Date(MetricDate, "%m/%d/%Y")) %>%
         left_join(clean_pq,
-                  by = c("Date" = "Date",
-                         "HashID" = "User_Email_2"))
+                  by = c("MetricDate" = "MetricDate",
+                         "HashID" = "User_Email_2")) 
 
     } else if(return == "list"){
 
       # Full metrics
       out_full <-
         wowa_file %>%
-        mutate(Date = as.Date(Date, "%m/%d/%Y")) %>%
+        mutate(MetricDate = as.Date(MetricDate, "%Y-%m-%d")) %>%
+        # mutate(MetricDate = as.Date(MetricDate, "%m/%d/%Y")) %>%
         left_join(clean_pq,
-                  by = c("Date" = "Date",
-                         "HashID" = "User_Email_2"))
+                  by = c("MetricDate" = "MetricDate",
+                         "HashID" = "User_Email_2")) 
 
       # Zoom metrics
       zm_full <-
         wowa_file %>%
-        mutate(Date = as.Date(Date, "%m/%d/%Y")) %>%
+        mutate(MetricDate = as.Date(MetricDate, "%Y-%m-%d")) %>%
+        # mutate(MetricDate = as.Date(MetricDate, "%m/%d/%Y")) %>%
         select(
-          Date,
+          MetricDate,
           HashID
         ) %>%
         left_join(
           clean_pq,
-          by = c("Date" = "Date",
-                 "HashID" = "User_Email_2"))
+          by = c("MetricDate" = "MetricDate",
+                 "HashID" = "User_Email_2")) 
 
       # return list output
       list(
