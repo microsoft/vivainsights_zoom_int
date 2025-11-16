@@ -4,7 +4,7 @@
 
 ## Summary
 
-The Zoom Data Integration solution with Viva Insights provides analysts with an opportunity to derive meaningful additional collaboration metrics from Zoom meeting reports that complement existing metrics provided by Viva Insights. 
+The Zoom Data Integration solution with [Microsoft Viva Insights](https://www.microsoft.com/en-us/microsoft-viva/insights) provides analysts with an opportunity to derive meaningful additional collaboration metrics from Zoom meeting reports that complement existing metrics provided by Viva Insights. 
 
 This repository provides the tools for Analysts to generate metrics from Zoom exports that are compatible and can be joined with Viva Insights person queries. 
 
